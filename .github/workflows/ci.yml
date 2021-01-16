@@ -1,0 +1,56 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 7.2, 7.3, 7.4, 8.0 ]
+        composer_flags: ["--prefer-lowest", "--prefer-stable"]
+        include:
+          - php: 8.1
+            experimental: true
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.9.0
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: zip, :xdebug
+          tools: composer
+
+      - name: Determine composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=directory::$(composer config cache-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2.1.3
+        with:
+          path: ${{ steps.composer-cache.outputs.directory }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: |
+          echo "::group::composer update"
+          composer update --no-interaction --prefer-dist ${{ matrix.composer_flags }}
+          echo "::endgroup::"
+
+      - name: Run tests
+        run: |
+          ./vendor/bin/simple-phpunit -v

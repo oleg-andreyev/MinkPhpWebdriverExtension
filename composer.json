@@ -1,0 +1,31 @@
+{
+    "name": "oleg-andreyev/mink-phpwebdriver-extension",
+    "description": "description",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Oleg Andreyev",
+            "email": "oleg@andreyev.lv"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "oleg-andreyev/mink-php-web-driver": "^1.0",
+        "behat/mink-extension": "^2.0"
+    },
+    "require-dev": {
+        "behat/behat": "^3.0",
+        "symfony/phpunit-bridge": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "OAndreyev\\MinkPhpWebdriverExtension\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OAndreyev\\MinkPhpWebdriverExtension\\Tests\\": "tests/"
+        }
+    }
+}

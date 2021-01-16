@@ -1,0 +1,10 @@
+default:
+  extensions:
+    OAndreyev\MinkPhpWebdriverExtension: ~
+    Behat\MinkExtension:
+      default_session: webdriver
+      webdriver:
+        wd_host: "http://0.0.0.0:4444/wd/hub"
+        browser: 'chrome'
+  gherkin:
+    cache: .cache
