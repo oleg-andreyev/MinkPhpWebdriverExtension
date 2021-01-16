@@ -8,6 +8,10 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          verbose="true">
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    </php>
+
     <testsuites>
         <testsuite name="default">
             <directory suffix="Test.php">tests</directory>
